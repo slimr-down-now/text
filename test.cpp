@@ -1,6 +1,6 @@
 #define SLIMR_TEST_MAIN
-#include "slimr/test.hpp"
-#include "slimr/text.hpp"
+#include "test.hpp"
+#include "text.hpp"
 
 using namespace slimr;
 
