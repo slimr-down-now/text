@@ -82,11 +82,11 @@ inline std::string clean_text(std::string_view input) {
         // - Byte Order Mark / ZWNBSP: U+FEFF
         // - Unicode tag plane (used for invisible prompt injection): U+E0000..U+E007F
         bool drop = (cp == 0x00AD || cp == 0x034F ||
-                    (cp >= 0x200B && cp <= 0x200F) ||
-                    (cp >= 0x202A && cp <= 0x202E) ||
-                    (cp >= 0x2060 && cp <= 0x206F) ||
-                    cp == 0xFEFF ||
-                    (cp >= 0xE0000 && cp <= 0xE007F));
+                     (cp >= 0x200B && cp <= 0x200F) ||
+                     (cp >= 0x202A && cp <= 0x202E) ||
+                     (cp >= 0x2060 && cp <= 0x206F) ||
+                     cp == 0xFEFF ||
+                     (cp >= 0xE0000 && cp <= 0xE007F));
 
         if (!drop) {
             out.append(input.substr(i, len));
@@ -105,7 +105,8 @@ namespace detail {
 inline std::string to_lower_str(std::string_view s) {
     std::string out;
     out.reserve(s.size());
-    for (char c : s) out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
+    for (char c : s)
+        out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
     return out;
 }
 
@@ -141,7 +142,7 @@ inline std::string codepoint_to_utf8(uint32_t cp) {
     return out;
 }
 
-inline std::string decode_html_entities(const std::string& text) {
+inline std::string decode_html_entities(const std::string &text) {
     static const std::unordered_map<std::string, std::string> ENTITIES = {
         {"amp", "&"},
         {"apos", "'"},
@@ -200,9 +201,10 @@ inline std::string decode_html_entities(const std::string& text) {
     return out;
 }
 
-inline bool is_hidden_element(const std::string& attrs) {
+inline bool is_hidden_element(const std::string &attrs) {
     static const std::regex hidden_attr_re(R"RAW(\bhidden\b)RAW", std::regex::icase);
-    if (std::regex_search(attrs, hidden_attr_re)) return true;
+    if (std::regex_search(attrs, hidden_attr_re))
+        return true;
 
     static const std::regex style_re(R"RAW(style\s*=\s*["']([^"']+)["'])RAW", std::regex::icase);
     std::smatch m;
@@ -220,11 +222,10 @@ inline bool is_hidden_element(const std::string& attrs) {
     return false;
 }
 
-inline std::string drop_hidden_elements(const std::string& html) {
+inline std::string drop_hidden_elements(const std::string &html) {
     static const std::regex open_tag_re(R"RAW(<([a-z][a-z0-9]*)\b((?:"[^"]*"|'[^']*'|[^>"'])*)>)RAW", std::regex::icase);
     static const std::set<std::string> void_tags = {
-        "area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"
-    };
+        "area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"};
 
     std::string out;
     size_t pos = 0;
@@ -235,7 +236,8 @@ inline std::string drop_hidden_elements(const std::string& html) {
     for (; it != end; ++it) {
         std::smatch m = *it;
         size_t m_index = m.position();
-        if (m_index < pos) continue;
+        if (m_index < pos)
+            continue;
 
         std::string name = to_lower_str(m[1].str());
         std::string attrs = m[2].str();
@@ -327,7 +329,9 @@ inline std::string html_to_text(std::string_view html_sv) {
     // 10. Strip \r
     std::string no_r;
     no_r.reserve(s.size());
-    for (char c : s) if (c != '\r') no_r.push_back(c);
+    for (char c : s)
+        if (c != '\r')
+            no_r.push_back(c);
     s = std::move(no_r);
 
     // 11. Normalize spaces and tabs
