@@ -51,13 +51,31 @@ int main() {
 | `truncate` | `inline std::string truncate(std::string_view s, size_t max_len, std::string_view ellipsis = "...")` | Truncates string to `max_len` characters, appending `ellipsis` if truncated. |
 | `word_wrap` | `inline std::string word_wrap(std::string_view s, size_t max_width = 80)` | Word-wraps text to specified maximum line width. |
 
-## Build & Test
+## Install
 
-This folder owns its header, `test.cpp`, CMake target/config, manifest, port recipe and licenses. See the [integration guide](../../README.md#integration-vcpkg--cmakeninja).
+Add `bdombro/slimr-text` to `vcpkg-configuration.json`:
 
-```bash
-just test-pkg text  # From the repository root; automatic native deps + ASan/UBSan
-just build         # All optimized Release suites
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-text",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-text"
+  ]
+}
 ```
 
-Generated output stays under root `build/deps/` and `build/cmake/{Debug,Release}/`. Consumers link `slimr::text` from `find_package(slimr-text CONFIG REQUIRED)`. The optional manifest `tests` feature keeps test dependencies out of production consumption.
+Declare `slimr-text` in `vcpkg.json` and link `slimr::text` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-text CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::text)
+```
+
+## Build & Test
+
+```bash
+just test   # Debug build (ASan + UBSan) and run tests
+just build  # Optimized Release build
+```
