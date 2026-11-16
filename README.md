@@ -13,12 +13,12 @@ Borrowed directly from the design of [`@slimr/text`](https://www.npmjs.com/packa
 
 ## Install
 
-Add `bdombro/slimr-text` to `vcpkg-configuration.json`:
+Add `slimr-down-now/text` to `vcpkg-configuration.json`:
 
 ```json
 {
   "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-text",
+  "repository": "https://github.com/slimr-down-now/text",
   "baseline": "<commit-sha>",
   "packages": [
     "slimr-text"
