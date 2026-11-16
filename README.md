@@ -1,4 +1,4 @@
-# slimr::text (`packages/text`)
+# slimr::text
 
 Fast, clean C++26 text utility library supporting robust UTF-8 sanitization (cleaning invisible zero-width and prompt injection characters), HTML-to-plain-text conversion, HTML entity decoding, and text truncation/wrapping.
 
@@ -11,7 +11,27 @@ Borrowed directly from the design of [`@slimr/text`](https://www.npmjs.com/packa
 - **Entity Decoding:** Decodes named (`&amp;`, `&quot;`) and numeric/hex HTML entities (`&#39;`, `&#x27;`).
 - **Truncation & Wrapping:** Clean text truncation and word wrapping utilities.
 
----
+## Install
+
+Add `bdombro/slimr-text` to `vcpkg-configuration.json`:
+
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-text",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-text"
+  ]
+}
+```
+
+Declare `slimr-text` in `vcpkg.json` and link `slimr::text` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-text CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::text)
+```
 
 ## Quick Start
 
@@ -51,31 +71,12 @@ int main() {
 | `truncate` | `inline std::string truncate(std::string_view s, size_t max_len, std::string_view ellipsis = "...")` | Truncates string to `max_len` characters, appending `ellipsis` if truncated. |
 | `word_wrap` | `inline std::string word_wrap(std::string_view s, size_t max_width = 80)` | Word-wraps text to specified maximum line width. |
 
-## Install
+## Environment Variables
 
-Add `bdombro/slimr-text` to `vcpkg-configuration.json`:
+| Name | Required | Purpose |
+| --- | --- | --- |
+| *(none)* | — | — |
 
-```json
-{
-  "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-text",
-  "baseline": "<commit-sha>",
-  "packages": [
-    "slimr-text"
-  ]
-}
-```
+## Development
 
-Declare `slimr-text` in `vcpkg.json` and link `slimr::text` in `CMakeLists.txt`:
-
-```cmake
-find_package(slimr-text CONFIG REQUIRED)
-target_link_libraries(my_target PRIVATE slimr::text)
-```
-
-## Build & Test
-
-```bash
-just test   # Debug build (ASan + UBSan) and run tests
-just build  # Optimized Release build
-```
+See [docs/development.md](docs/development.md) for building, testing, linting, and releasing.
