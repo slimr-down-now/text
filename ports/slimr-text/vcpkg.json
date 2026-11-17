@@ -1,6 +1,6 @@
 {
   "name": "slimr-text",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Header-only UTF-8 sanitization and readable HTML conversion",
   "features": {
     "tests": {
